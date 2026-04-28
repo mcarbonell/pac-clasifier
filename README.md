@@ -44,3 +44,7 @@ A profound emergent property of PAC is its inherent resistance to overfitting un
 If PAC stalls at ~95% training accuracy, it signifies that the remaining 5% of errors are mathematically incoherent (e.g., random scribbles, mislabeled data, or severe artifacts). Because PAC averages errors to form new archetypes, incoherent errors average out into "blurry blobs" that fail to attract any images, and are thus automatically discarded by the algorithm. 
 
 This makes PAC an exceptional tool for **Dataset Auditing**. By extracting the pool of images that PAC repeatedly fails to classify in late generations, we can surface the exact data points that are likely mislabeled or too noisy, allowing human reviewers to clean the dataset. Reaching 100% accuracy on a raw dataset is often a sign of pure memorization; PAC stops exactly where generalization ends and noise begins.
+
+## Visualización del algoritmo
+
+![Gráfico de bifurcación de arquetipos refinados](results/figures/refined_archetypes_bifurcation.png)
