@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+from torch.optim import Adam
 
 class PurifyingArchetypeClassifierV2:
     """
@@ -181,6 +182,109 @@ class PurifyingArchetypeClassifierV2:
         
         return self.arch_labels[best_arch_idx], max_sim
         
+    def _morph_archetype(self, archetype, tx, ty, theta, scale):
+        """
+        Applies an affine transformation to an archetype.
+        archetype: (D,) tensor
+        tx, ty: translation offsets
+        theta: rotation angle in radians
+        scale: zoom factor
+        """
+        # Reshape to (1, 1, 28, 28) for grid_sample
+        img = archetype.view(1, 1, 28, 28)
+        
+        cos_t = torch.cos(theta)
+        sin_t = torch.sin(theta)
+        
+        # Affine matrix:
+        # [ scale*cos(theta), -scale*sin(theta), tx ]
+        # [ scale*sin(theta),  scale*cos(theta), ty ]
+        matrix = torch.stack([
+            torch.stack([scale * cos_t, -scale * sin_t, tx]),
+            torch.stack([scale * sin_t,  scale * cos_t, ty])
+        ]).unsqueeze(0) # (1, 2, 3)
+        
+        grid = F.affine_grid(matrix, [1, 1, 28, 28], align_corners=False)
+        morphed = F.grid_sample(img, grid, align_corners=False)
+        
+        return morphed.view(-1)
+
+    def _optimize_fit(self, target_img, archetype, iterations=10, lr=0.01):
+        """
+        Optimizes the transformation parameters to fit the archetype to the target image.
+        """
+        tx = torch.tensor(0.0, device=self.device, requires_grad=True)
+        ty = torch.tensor(0.0, device=self.device, requires_grad=True)
+        theta = torch.tensor(0.0, device=self.device, requires_grad=True)
+        scale = torch.tensor(1.0, device=self.device, requires_grad=True)
+        
+        params = [tx, ty, theta, scale]
+        optimizer = Adam(params, lr=lr)
+        
+        best_sim = -1.0
+        
+        for _ in range(iterations):
+            optimizer.zero_grad()
+            morphed = self._morph_archetype(archetype, tx, ty, theta, scale)
+            
+            # We use MSE for the gradient because it's more stable for spatial alignment
+            loss = F.mse_loss(morphed, target_img)
+            loss.backward()
+            optimizer.step()
+            
+            with torch.no_grad():
+                # Evaluate using cosine similarity to stay consistent with PAC
+                sim = F.cosine_similarity(target_img.unsqueeze(0), morphed.unsqueeze(0)).item()
+                if sim > best_sim:
+                    best_sim = sim
+                    
+        return best_sim
+
+    def predict_with_morphing(self, x_test, top_k=10, morph_iters=10):
+        """
+        Enhanced prediction using archetype morphing.
+        1. Find top-K closest archetypes.
+        2. Optimize transformation for each candidate.
+        3. Return the best fitting archetype's label.
+        """
+        if not self.is_fitted:
+            raise ValueError("Model is not fitted yet. Call fit() first.")
+            
+        x_test = x_test.to(self.device)
+        norm_test = F.normalize(x_test, p=2, dim=1)
+        norm_arch = F.normalize(self.arch_tensors, p=2, dim=1)
+        
+        # Initial similarity to find candidates
+        cos_sim_test = torch.mm(norm_test, norm_arch.t()) # (N, num_arch)
+        
+        all_preds = []
+        all_sims = []
+        
+        # Process images one by one (morphing is per-image)
+        for i in range(x_test.shape[0]):
+            img = x_test[i]
+            
+            # Get top-K candidates
+            sims = cos_sim_test[i]
+            _, top_indices = torch.topk(sims, k=min(top_k, len(self.arch_tensors)))
+            
+            best_overall_sim = -1.0
+            best_label = None
+            
+            for idx in top_indices:
+                arch = self.arch_tensors[idx]
+                # Optimize fit
+                fit_sim = self._optimize_fit(img, arch, iterations=morph_iters)
+                
+                if fit_sim > best_overall_sim:
+                    best_overall_sim = fit_sim
+                    best_label = self.arch_labels[idx]
+            
+            all_preds.append(best_label)
+            all_sims.append(best_overall_sim)
+            
+        return torch.tensor(all_preds, device=self.device), torch.tensor(all_sims, device=self.device)
+
     def get_archetypes(self):
         """Returns the learned archetype tensors and their corresponding labels."""
         return self.arch_tensors, self.arch_labels

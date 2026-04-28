@@ -5,6 +5,12 @@ The **Purifying Archetype Classifier (PAC)** is a novel supervised clustering an
 
 It addresses a fundamental limitation of traditional clustering algorithms (like K-Means) and brute-force distance classifiers (like K-Nearest Neighbors) by introducing a **Supervised Error-Driven Isolation** mechanism.
 
+### PAC-V2 Confusion-Aware Archetypes
+
+![PAC-V2 Confusion Archetypes](results/figures/v2_confusion_archetypes.png)
+
+*Base archetypes (generation 0, red titles) and confusion archetypes (`true→predicted`, colored by confused class) discovered by PAC-V2 on MNIST.*
+
 ## PAC vs K-Means vs KNN
 Is PAC better than K-Means? For classification tasks, **yes**.
 
@@ -100,12 +106,6 @@ This confirms that PAC does not merely "memorize" — it **distinguishes genuine
 > 🖼️ Visualizations: `results/mnist_audit/persistent_errors.png` and `persistent_errors_by_confusion.png`
 
 ## Visualizations
-
-### PAC-V2 Confusion-Aware Archetypes
-
-![PAC-V2 Confusion Archetypes](results/figures/v2_confusion_archetypes.png)
-
-*Base archetypes (generation 0, red titles) and confusion archetypes (`true→predicted`, colored by confused class) discovered by PAC-V2 on MNIST.*
 
 ### MNIST Persistent Error Audit
 
