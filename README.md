@@ -116,5 +116,3 @@ This confirms that PAC does not merely "memorize" — it **distinguishes genuine
 ![Persistent Errors by Confusion Type](results/mnist_audit/persistent_errors_by_confusion.png)
 
 *Errors organized by confusion pattern (`true→predicted`). Each row shows a different confusion type; columns show individual samples.*
-
-![Gráfico de bifurcación de arquetipos refinados](results/figures/refined_archetypes_bifurcation.png)
