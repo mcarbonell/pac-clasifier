@@ -1,0 +1,12 @@
+{
+  "island_signatures": {
+    "accuracy": 0.853,
+    "num_archetypes": 1611,
+    "train_time": 67.69150257110596
+  },
+  "raw_pixels": {
+    "accuracy": 0.9607,
+    "num_archetypes": 1470,
+    "train_time": 113.31786751747131
+  }
+}
