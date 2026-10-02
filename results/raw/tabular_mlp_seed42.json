@@ -1,0 +1,50 @@
+{
+  "experiment_name": "tabular_mlp",
+  "seed": 42,
+  "commit_hash": "f215e11ab66d243bf54a3bfae2a4b167689c82e9",
+  "hardware_info": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.2",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+    "machine": "AMD64",
+    "ram_total_gb": 61.83,
+    "cpu_count_logical": 16,
+    "cpu_count_physical": 8,
+    "torch_version": "2.10.0+cpu",
+    "cuda_available": false
+  },
+  "full_config": {
+    "max_iters": 5,
+    "bifurcation_mode": "confusion",
+    "distance_metric": "cosine",
+    "min_cluster_size": 1,
+    "lvq_epochs": 3,
+    "lvq_prototypes_per_class": 2,
+    "mlp_iters": 5,
+    "mlp_hidden": 128,
+    "knn_k": 3,
+    "quick_mode": true
+  },
+  "final_objective": 0.4416666626930237,
+  "total_evaluations": 360,
+  "wall_clock_time": 0.035,
+  "function_evaluation_time": 0.0015,
+  "internal_overhead_time": 0.0334,
+  "convergence_speed": 1,
+  "trajectory": [
+    {
+      "iteration": 1,
+      "eval_time": 0.0015223999507725239,
+      "cumulative_eval_time": 0.0015223999507725239,
+      "evaluations": 360,
+      "cumulative_evaluations": 360,
+      "accuracy": 0.4416666626930237
+    }
+  ],
+  "dataset": "tabular",
+  "model": "mlp",
+  "test_acc": 0.4416666626930237,
+  "train_time_sec": 0.0334,
+  "test_eval_time_sec": 0.0015,
+  "num_prototypes": null
+}

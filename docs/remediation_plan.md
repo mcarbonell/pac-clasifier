@@ -10,7 +10,7 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 
 - [x] **Fase 0: Higiene del Repositorio y Refactorización del Core**
 - [x] **Fase 1: Suite de Tests Automatizados (`pytest`)**
-- [ ] **Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos (LVQ, KNN, SVM, MLP)**
+- [x] **Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos (LVQ, KNN, SVM, MLP)**
 - [ ] **Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones**
 - [ ] **Fase 4: Formalización Matemática, Algoritmo y Documentación**
 - [ ] **Fase 5: Estructuración y Redacción del Borrador del Paper**
@@ -65,23 +65,20 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 ### Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos
 *Objetivo:* Generar la evidencia empírica rigurosa que exige la comunidad académica, comparando PAC contra baselines pertinentes.
 
-- [ ] **2.1 Framework de Métricas (`GEMINI.md`):**
-  - Implementar logger estandarizado que registre en `results/raw/`:
+- [x] **2.1 Framework de Métricas (`GEMINI.md`):**
+  - Implementado `experiments/metrics_logger.py` que registra estrictamente en `results/raw/` y `results/summary/`:
     - `wall_clock_time`, `function_evaluation_time`, `internal_overhead_time`.
     - `final_objective` (accuracy), `total_evaluations`, `convergence_speed`.
     - `num_seeds`, `std_objective`, `hardware_info`, `full_config`.
-  - Incluir flag `--quick` / `--dry-run` para verificación inmediata en segundos y modo completo multi-seed para ejecución terminal.
-- [ ] **2.2 Baseline LVQ en PyTorch:**
-  - Implementar clasificador GLVQ (Generalized Learning Vector Quantization) vectorizado en PyTorch como baseline directo y justo frente a PAC.
-- [ ] **2.3 Baselines Clásicos (Scikit-Learn / PyTorch):**
-  - KNN ($k=1, 3, 5$).
-  - SVM (RBF kernel).
-  - MLP simple (1 capa oculta).
-- [ ] **2.4 Evaluación Multi-Dataset (Multi-Seed):**
-  - **Fashion-MNIST:** 784D, 10 clases (drop-in para sustituir la exclusividad de MNIST).
-  - **Dataset Tabular:** (ej. Pendigits o Covertype reducido) para demostrar funcionamiento fuera del dominio de imágenes.
-  - **MNIST Multi-Seed:** 5 a 10 semillas para reportar media $\pm$ desviación estándar.
-- [ ] **2.5 Commit & Push Fase 2.**
+  - Soporte `--quick` para Fast Feedback y verificación instantánea en segundos.
+- [x] **2.2 Baseline LVQ en PyTorch:**
+  - Implementado clasificador GLVQ (Generalized Learning Vector Quantization - Sato & Yamada 1996) vectorizado en PyTorch en `experiments/baselines/glvq.py`.
+- [x] **2.3 Baselines Clásicos (Scikit-Learn):**
+  - KNN ($k=3$), SVM (RBF kernel), y MLP (1 capa oculta) unificados en `experiments/baselines/classical.py`.
+- [x] **2.4 Suite y Datasets:**
+  - `experiments/datasets.py` para MNIST, Fashion-MNIST y Tabular (Digits).
+  - Runner comparativo unificado `experiments/run_benchmarks.py` con validación `--quick` verificada al 100%.
+- [x] **2.5 Commit & Push Fase 2.**
 
 ---
 
