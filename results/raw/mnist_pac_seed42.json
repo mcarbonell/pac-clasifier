@@ -1,5 +1,5 @@
 {
-  "experiment_name": "tabular_lvq",
+  "experiment_name": "mnist_pac",
   "seed": 42,
   "commit_hash": "9047322cad5c9a9a972e089eb8dc023cbecc978d",
   "hardware_info": {
@@ -14,7 +14,7 @@
     "cuda_available": false
   },
   "full_config": {
-    "max_iters": 50,
+    "max_iters": 40,
     "bifurcation_mode": "confusion",
     "distance_metric": "cosine",
     "min_cluster_size": 1,
@@ -25,26 +25,26 @@
     "knn_k": 3,
     "quick_mode": false
   },
-  "final_objective": 0.9361110925674438,
-  "total_evaluations": 360,
-  "wall_clock_time": 1.2993,
-  "function_evaluation_time": 0.0002,
-  "internal_overhead_time": 1.2991,
+  "final_objective": 0.9605000019073486,
+  "total_evaluations": 10000,
+  "wall_clock_time": 21.7309,
+  "function_evaluation_time": 0.0984,
+  "internal_overhead_time": 21.6324,
   "convergence_speed": 1,
   "trajectory": [
     {
       "iteration": 1,
-      "eval_time": 0.0002234000712633133,
-      "cumulative_eval_time": 0.0002234000712633133,
-      "evaluations": 360,
-      "cumulative_evaluations": 360,
-      "accuracy": 0.9361110925674438
+      "eval_time": 0.09841330000199378,
+      "cumulative_eval_time": 0.09841330000199378,
+      "evaluations": 10000,
+      "cumulative_evaluations": 10000,
+      "accuracy": 0.9605000019073486
     }
   ],
-  "dataset": "tabular",
-  "model": "lvq",
-  "test_acc": 0.9361110925674438,
-  "train_time_sec": 1.299,
-  "test_eval_time_sec": 0.0002,
-  "num_prototypes": 20
+  "dataset": "mnist",
+  "model": "pac",
+  "test_acc": 0.9605000019073486,
+  "train_time_sec": 21.6322,
+  "test_eval_time_sec": 0.0984,
+  "num_prototypes": 1417
 }

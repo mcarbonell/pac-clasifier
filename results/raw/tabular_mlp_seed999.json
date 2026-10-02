@@ -1,6 +1,6 @@
 {
-  "experiment_name": "tabular_lvq",
-  "seed": 42,
+  "experiment_name": "tabular_mlp",
+  "seed": 999,
   "commit_hash": "9047322cad5c9a9a972e089eb8dc023cbecc978d",
   "hardware_info": {
     "os": "Windows-11-10.0.26200-SP0",
@@ -25,26 +25,26 @@
     "knn_k": 3,
     "quick_mode": false
   },
-  "final_objective": 0.9361110925674438,
+  "final_objective": 0.9388889074325562,
   "total_evaluations": 360,
-  "wall_clock_time": 1.2993,
-  "function_evaluation_time": 0.0002,
-  "internal_overhead_time": 1.2991,
+  "wall_clock_time": 0.1579,
+  "function_evaluation_time": 0.0008,
+  "internal_overhead_time": 0.157,
   "convergence_speed": 1,
   "trajectory": [
     {
       "iteration": 1,
-      "eval_time": 0.0002234000712633133,
-      "cumulative_eval_time": 0.0002234000712633133,
+      "eval_time": 0.0008486000588163733,
+      "cumulative_eval_time": 0.0008486000588163733,
       "evaluations": 360,
       "cumulative_evaluations": 360,
-      "accuracy": 0.9361110925674438
+      "accuracy": 0.9388889074325562
     }
   ],
   "dataset": "tabular",
-  "model": "lvq",
-  "test_acc": 0.9361110925674438,
-  "train_time_sec": 1.299,
-  "test_eval_time_sec": 0.0002,
-  "num_prototypes": 20
+  "model": "mlp",
+  "test_acc": 0.9388889074325562,
+  "train_time_sec": 0.157,
+  "test_eval_time_sec": 0.0008,
+  "num_prototypes": null
 }

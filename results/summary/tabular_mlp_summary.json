@@ -1,7 +1,7 @@
 {
   "experiment_name": "tabular_mlp",
-  "num_seeds": 1,
-  "commit_hash": "f215e11ab66d243bf54a3bfae2a4b167689c82e9",
+  "num_seeds": 5,
+  "commit_hash": "9047322cad5c9a9a972e089eb8dc023cbecc978d",
   "hardware_info": {
     "os": "Windows-11-10.0.26200-SP0",
     "python_version": "3.14.2",
@@ -14,35 +14,35 @@
     "cuda_available": false
   },
   "full_config": {
-    "max_iters": 5,
+    "max_iters": 50,
     "bifurcation_mode": "confusion",
     "distance_metric": "cosine",
     "min_cluster_size": 1,
-    "lvq_epochs": 3,
+    "lvq_epochs": 15,
     "lvq_prototypes_per_class": 2,
-    "mlp_iters": 5,
+    "mlp_iters": 25,
     "mlp_hidden": 128,
     "knn_k": 3,
-    "quick_mode": true
+    "quick_mode": false
   },
   "metrics": {
     "final_objective": {
-      "mean": 0.4416666626930237,
-      "std": 0.0,
-      "min": 0.4416666626930237,
-      "max": 0.4416666626930237
+      "mean": 0.9433333396911621,
+      "std": 0.004513345962885363,
+      "min": 0.9388889074325562,
+      "max": 0.949999988079071
     },
     "wall_clock_time": {
-      "mean": 0.035,
-      "std": 0.0
+      "mean": 0.15442,
+      "std": 0.00548831485977253
     },
     "function_evaluation_time": {
-      "mean": 0.0015,
-      "std": 0.0
+      "mean": 0.0013000000000000002,
+      "std": 0.0003577708763999663
     },
     "internal_overhead_time": {
-      "mean": 0.0334,
-      "std": 0.0
+      "mean": 0.1531,
+      "std": 0.005479416027278815
     },
     "total_evaluations": {
       "mean": 360.0,

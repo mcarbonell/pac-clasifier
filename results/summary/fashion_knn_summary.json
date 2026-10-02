@@ -1,6 +1,6 @@
 {
-  "experiment_name": "tabular_knn",
-  "num_seeds": 5,
+  "experiment_name": "fashion_knn",
+  "num_seeds": 1,
   "commit_hash": "9047322cad5c9a9a972e089eb8dc023cbecc978d",
   "hardware_info": {
     "os": "Windows-11-10.0.26200-SP0",
@@ -14,7 +14,7 @@
     "cuda_available": false
   },
   "full_config": {
-    "max_iters": 50,
+    "max_iters": 40,
     "bifurcation_mode": "confusion",
     "distance_metric": "cosine",
     "min_cluster_size": 1,
@@ -27,25 +27,25 @@
   },
   "metrics": {
     "final_objective": {
-      "mean": 0.9861111044883728,
+      "mean": 0.8564000129699707,
       "std": 0.0,
-      "min": 0.9861111044883728,
-      "max": 0.9861111044883728
+      "min": 0.8564000129699707,
+      "max": 0.8564000129699707
     },
     "wall_clock_time": {
-      "mean": 0.006560000000000001,
-      "std": 0.0006829348431585549
+      "mean": 6.0541,
+      "std": 0.0
     },
     "function_evaluation_time": {
-      "mean": 0.005639999999999999,
-      "std": 0.0005817215828899595
+      "mean": 6.0115,
+      "std": 0.0
     },
     "internal_overhead_time": {
-      "mean": 0.0009400000000000001,
-      "std": 0.00024166091947189146
+      "mean": 0.0426,
+      "std": 0.0
     },
     "total_evaluations": {
-      "mean": 360.0,
+      "mean": 10000.0,
       "std": 0.0
     },
     "convergence_speed": {

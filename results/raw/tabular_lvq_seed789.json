@@ -1,6 +1,6 @@
 {
   "experiment_name": "tabular_lvq",
-  "seed": 42,
+  "seed": 789,
   "commit_hash": "9047322cad5c9a9a972e089eb8dc023cbecc978d",
   "hardware_info": {
     "os": "Windows-11-10.0.26200-SP0",
@@ -25,26 +25,26 @@
     "knn_k": 3,
     "quick_mode": false
   },
-  "final_objective": 0.9361110925674438,
+  "final_objective": 0.9333333373069763,
   "total_evaluations": 360,
-  "wall_clock_time": 1.2993,
+  "wall_clock_time": 0.0884,
   "function_evaluation_time": 0.0002,
-  "internal_overhead_time": 1.2991,
+  "internal_overhead_time": 0.0882,
   "convergence_speed": 1,
   "trajectory": [
     {
       "iteration": 1,
-      "eval_time": 0.0002234000712633133,
-      "cumulative_eval_time": 0.0002234000712633133,
+      "eval_time": 0.00020430004224181175,
+      "cumulative_eval_time": 0.00020430004224181175,
       "evaluations": 360,
       "cumulative_evaluations": 360,
-      "accuracy": 0.9361110925674438
+      "accuracy": 0.9333333373069763
     }
   ],
   "dataset": "tabular",
   "model": "lvq",
-  "test_acc": 0.9361110925674438,
-  "train_time_sec": 1.299,
+  "test_acc": 0.9333333373069763,
+  "train_time_sec": 0.0881,
   "test_eval_time_sec": 0.0002,
   "num_prototypes": 20
 }

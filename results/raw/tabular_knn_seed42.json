@@ -1,7 +1,7 @@
 {
   "experiment_name": "tabular_knn",
   "seed": 42,
-  "commit_hash": "f215e11ab66d243bf54a3bfae2a4b167689c82e9",
+  "commit_hash": "9047322cad5c9a9a972e089eb8dc023cbecc978d",
   "hardware_info": {
     "os": "Windows-11-10.0.26200-SP0",
     "python_version": "3.14.2",
@@ -14,37 +14,37 @@
     "cuda_available": false
   },
   "full_config": {
-    "max_iters": 5,
+    "max_iters": 50,
     "bifurcation_mode": "confusion",
     "distance_metric": "cosine",
     "min_cluster_size": 1,
-    "lvq_epochs": 3,
+    "lvq_epochs": 15,
     "lvq_prototypes_per_class": 2,
-    "mlp_iters": 5,
+    "mlp_iters": 25,
     "mlp_hidden": 128,
     "knn_k": 3,
-    "quick_mode": true
+    "quick_mode": false
   },
-  "final_objective": 0.9611111283302307,
+  "final_objective": 0.9861111044883728,
   "total_evaluations": 360,
-  "wall_clock_time": 0.0063,
-  "function_evaluation_time": 0.0051,
-  "internal_overhead_time": 0.0012,
+  "wall_clock_time": 0.0072,
+  "function_evaluation_time": 0.0058,
+  "internal_overhead_time": 0.0014,
   "convergence_speed": 1,
   "trajectory": [
     {
       "iteration": 1,
-      "eval_time": 0.005118199973367155,
-      "cumulative_eval_time": 0.005118199973367155,
+      "eval_time": 0.00582290010061115,
+      "cumulative_eval_time": 0.00582290010061115,
       "evaluations": 360,
       "cumulative_evaluations": 360,
-      "accuracy": 0.9611111283302307
+      "accuracy": 0.9861111044883728
     }
   ],
   "dataset": "tabular",
   "model": "knn",
-  "test_acc": 0.9611111283302307,
-  "train_time_sec": 0.0011,
-  "test_eval_time_sec": 0.0051,
-  "num_prototypes": 500
+  "test_acc": 0.9861111044883728,
+  "train_time_sec": 0.0013,
+  "test_eval_time_sec": 0.0058,
+  "num_prototypes": 1437
 }
