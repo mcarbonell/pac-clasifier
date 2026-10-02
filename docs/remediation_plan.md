@@ -13,7 +13,7 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 - [x] **Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos (LVQ, KNN, SVM, MLP)**
 - [x] **Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones**
 - [x] **Fase 4: Formalización Matemática, Algoritmo y Documentación**
-- [ ] **Fase 5: Estructuración y Redacción del Borrador del Paper**
+- [x] **Fase 5: Estructuración y Redacción del Borrador del Paper**
 
 ---
 
@@ -118,10 +118,12 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 ### Fase 5: Estructuración y Redacción del Borrador del Paper
 *Objetivo:* Dejar el manuscrito listo en formato académico.
 
-- [ ] **5.1 Estructura del Manuscrito (`docs/paper/`):**
-  - Abstract, Introduction, Related Work (LVQ, ProtoPNet, Dataset Cartography, Cleanlab).
-  - Method (Mathematical Formulation + Algorithm 1).
-  - Experiments & Results (Tablas comparativas, multi-seed, ablaciones, gráficos $K(t)$).
-  - Dataset Auditing via Persistent Errors (Ruido controlado + validación en MNIST).
-  - Limitations & Future Work.
-- [ ] **5.2 Commit & Push Fase 5.**
+- [x] **5.1 Estructura del Manuscrito (`docs/paper/paper_draft.md`):**
+  - Abstract, Introduction y posicionamiento estratégico.
+  - Related Work exhaustivo (LVQ/GLVQ, ProtoNets, ProtoPNet, Dataset Cartography, Confident Learning / Cleanlab).
+  - Method (Definiciones, Dual-phase dynamics, Proposición 1 de no-deriva inter-clase, Algorithm 1 y análisis de complejidad).
+  - Experiments & Results (Tablas comparativas en Tabular, Fashion-MNIST y MNIST vs GLVQ, KNN, SVM, MLP).
+  - Dataset Auditing via Persistent Errors (Ruido controlado 0%-20% y validación con los 261 errores de MNIST).
+  - Ablations (Coseno vs Euclídeo, `min_cluster_size` y trayectoria $K(t)$).
+  - Discussion & Limitations.
+- [x] **5.2 Commit & Push Fase 5.**
