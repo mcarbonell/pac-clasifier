@@ -26,10 +26,10 @@ Determinar si existe un **sesgo sistemático en la posición** de los dígitos d
 Para cada imagen del dataset MNIST (70,000 imágenes: 60,000 train + 10,000 test):
 
 1. **Centro de gravedad ponderado**: calcular el centro de masa donde cada píxel contribuye proporcionalmente a su intensidad.
-   $$C_x = \\frac{\\sum_{x,y} x \\cdot I(x,y)}{\\sum_{x,y} I(x,y)}, \\quad C_y = \\frac{\\sum_{x,y} y \\cdot I(x,y)}{\\sum_{x,y} I(x,y)}$$
+   $$C_x = \frac{\sum_{x,y} x \cdot I(x,y)}{\sum_{x,y} I(x,y)}, \quad C_y = \frac{\sum_{x,y} y \cdot I(x,y)}{\sum_{x,y} I(x,y)}$$
 
 2. **Desviación respecto al centro geométrico**: el centro teórico de una imagen 28×28 es (13.5, 13.5).
-   $$\\Delta x = C_x - 13.5, \\quad \\Delta y = C_y - 13.5$$
+   $$\Delta x = C_x - 13.5, \quad \Delta y = C_y - 13.5$$
 
 3. **Estadísticas globales y por dígito**: media, desviación estándar, percentiles 5/25/50/75/95, mínimo y máximo.
 

@@ -1,3 +1,41 @@
-
-
+# Private notes
 docs/private/
+
+# Byte-compiled / optimized / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# C extensions
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Datasets
+data/
+data/**
+
+# Model weights & temporary checkpoints
+*.pt
+*.pth
+
+# IDE and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
