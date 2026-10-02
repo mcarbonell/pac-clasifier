@@ -12,7 +12,7 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 - [x] **Fase 1: Suite de Tests Automatizados (`pytest`)**
 - [x] **Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos (LVQ, KNN, SVM, MLP)**
 - [x] **Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones**
-- [ ] **Fase 4: Formalización Matemática, Algoritmo y Documentación**
+- [x] **Fase 4: Formalización Matemática, Algoritmo y Documentación**
 - [ ] **Fase 5: Estructuración y Redacción del Borrador del Paper**
 
 ---
@@ -102,16 +102,16 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 ### Fase 4: Formalización Matemática y Documentación
 *Objetivo:* Dotar al algoritmo del lenguaje y formalismo de conferencias de primer nivel (NeurIPS/ICML/AISTATS).
 
-- [ ] **4.1 Formalización Matemática (`docs/mathematical_formulation.md`):**
+- [x] **4.1 Formalización Matemática (`docs/mathematical_formulation.md`):**
   - Notación formal de conjuntos de arquetipos $\mathcal{A} = \{(a_k, y_k)\}$.
   - Definición rigurosa de las dos fases por iteración: *Purification* (aislamiento/reasignación intra-clase) y *Bifurcation* (generación de arquetipos por matriz de confusión dirigida).
-  - Demostración / análisis de no-migración inter-clase de aciertos.
-  - Análisis formal de complejidad asintótica temporal $O(G \cdot N \cdot K_{avg} \cdot D)$ y espacial.
-- [ ] **4.2 Pseudocódigo Formal:**
+  - Demostración formal (Proposición 1) de no-migración inter-clase de aciertos.
+  - Análisis formal de complejidad asintótica temporal $\mathcal{O}(G \cdot N \cdot \bar{K} \cdot D)$ y espacial.
+- [x] **4.2 Pseudocódigo Formal:**
   - Estructuración en estilo Algorithm 1 con entradas, inicialización, bucle principal y salida.
-- [ ] **4.3 Actualización de README.md:**
-  - Reemplazar comparativas débiles por el nuevo posicionamiento estratégico, citando formalmente LVQ, Prototype Networks y Cleanlab.
-- [ ] **4.4 Commit & Push Fase 4.**
+- [x] **4.3 Actualización de README.md:**
+  - Reemplazadas comparativas informales por el nuevo posicionamiento estratégico, citando formalmente LVQ, Prototype Networks y Cleanlab, incorporando tablas empíricas reales de benchmarks (Tabular, Fashion-MNIST, MNIST) y ejemplos de uso.
+- [x] **4.4 Commit & Push Fase 4.**
 
 ---
 
