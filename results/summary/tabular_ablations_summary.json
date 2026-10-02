@@ -1,0 +1,941 @@
+{
+  "dataset": "tabular",
+  "commit_hash": "e918b6f1ba73cb8d1ef45631a49bb54bd3f17d0e",
+  "hardware_info": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.2",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+    "machine": "AMD64",
+    "ram_total_gb": 61.83,
+    "cpu_count_logical": 16,
+    "cpu_count_physical": 8,
+    "torch_version": "2.10.0+cpu",
+    "cuda_available": false
+  },
+  "distance_metric_ablation": {
+    "cosine": [
+      {
+        "metric": "cosine",
+        "seed": 42,
+        "test_acc": 0.9778,
+        "num_archetypes": 108,
+        "fit_time_sec": 0.0578
+      },
+      {
+        "metric": "cosine",
+        "seed": 123,
+        "test_acc": 0.9778,
+        "num_archetypes": 108,
+        "fit_time_sec": 0.0535
+      }
+    ],
+    "euclidean": [
+      {
+        "metric": "euclidean",
+        "seed": 42,
+        "test_acc": 0.9639,
+        "num_archetypes": 97,
+        "fit_time_sec": 0.0341
+      },
+      {
+        "metric": "euclidean",
+        "seed": 123,
+        "test_acc": 0.9639,
+        "num_archetypes": 97,
+        "fit_time_sec": 0.0332
+      }
+    ]
+  },
+  "min_cluster_size_ablation": [
+    {
+      "min_cluster_size": 1,
+      "test_acc": 0.9778,
+      "num_archetypes": 108,
+      "fit_time_sec": 0.0514,
+      "trajectory": [
+        {
+          "generation": 0,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 1,
+          "num_archetypes": 47,
+          "train_acc": 0.936673641204834
+        },
+        {
+          "generation": 2,
+          "num_archetypes": 72,
+          "train_acc": 0.9888656735420227
+        },
+        {
+          "generation": 3,
+          "num_archetypes": 84,
+          "train_acc": 0.9937369227409363
+        },
+        {
+          "generation": 4,
+          "num_archetypes": 90,
+          "train_acc": 0.9944328665733337
+        },
+        {
+          "generation": 5,
+          "num_archetypes": 97,
+          "train_acc": 0.9965205192565918
+        },
+        {
+          "generation": 6,
+          "num_archetypes": 102,
+          "train_acc": 0.9986082315444946
+        },
+        {
+          "generation": 7,
+          "num_archetypes": 104,
+          "train_acc": 0.9986082315444946
+        },
+        {
+          "generation": 8,
+          "num_archetypes": 106,
+          "train_acc": 0.9986082315444946
+        },
+        {
+          "generation": 9,
+          "num_archetypes": 108,
+          "train_acc": 1.0
+        }
+      ]
+    },
+    {
+      "min_cluster_size": 2,
+      "test_acc": 0.975,
+      "num_archetypes": 71,
+      "fit_time_sec": 0.1989,
+      "trajectory": [
+        {
+          "generation": 0,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 1,
+          "num_archetypes": 36,
+          "train_acc": 0.9478079080581665
+        },
+        {
+          "generation": 2,
+          "num_archetypes": 52,
+          "train_acc": 0.9770354628562927
+        },
+        {
+          "generation": 3,
+          "num_archetypes": 59,
+          "train_acc": 0.9853861927986145
+        },
+        {
+          "generation": 4,
+          "num_archetypes": 62,
+          "train_acc": 0.9895615577697754
+        },
+        {
+          "generation": 5,
+          "num_archetypes": 63,
+          "train_acc": 0.9874739050865173
+        },
+        {
+          "generation": 6,
+          "num_archetypes": 67,
+          "train_acc": 0.9902575016021729
+        },
+        {
+          "generation": 7,
+          "num_archetypes": 68,
+          "train_acc": 0.9902575016021729
+        },
+        {
+          "generation": 8,
+          "num_archetypes": 69,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 9,
+          "num_archetypes": 70,
+          "train_acc": 0.9902575016021729
+        },
+        {
+          "generation": 10,
+          "num_archetypes": 71,
+          "train_acc": 0.9916492700576782
+        },
+        {
+          "generation": 11,
+          "num_archetypes": 71,
+          "train_acc": 0.9916492700576782
+        },
+        {
+          "generation": 12,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 13,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 14,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 15,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 16,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 17,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 18,
+          "num_archetypes": 71,
+          "train_acc": 0.9916492700576782
+        },
+        {
+          "generation": 19,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 20,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 21,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 22,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 23,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 24,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 25,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 26,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 27,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 28,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 29,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 30,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 31,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 32,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 33,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 34,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 35,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 36,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 37,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 38,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        },
+        {
+          "generation": 39,
+          "num_archetypes": 71,
+          "train_acc": 0.9909533858299255
+        }
+      ]
+    },
+    {
+      "min_cluster_size": 5,
+      "test_acc": 0.9722,
+      "num_archetypes": 33,
+      "fit_time_sec": 0.156,
+      "trajectory": [
+        {
+          "generation": 0,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 1,
+          "num_archetypes": 18,
+          "train_acc": 0.9324982762336731
+        },
+        {
+          "generation": 2,
+          "num_archetypes": 24,
+          "train_acc": 0.9568545818328857
+        },
+        {
+          "generation": 3,
+          "num_archetypes": 26,
+          "train_acc": 0.9631175994873047
+        },
+        {
+          "generation": 4,
+          "num_archetypes": 29,
+          "train_acc": 0.9700765609741211
+        },
+        {
+          "generation": 5,
+          "num_archetypes": 29,
+          "train_acc": 0.9721642136573792
+        },
+        {
+          "generation": 6,
+          "num_archetypes": 29,
+          "train_acc": 0.9714683294296265
+        },
+        {
+          "generation": 7,
+          "num_archetypes": 30,
+          "train_acc": 0.9714683294296265
+        },
+        {
+          "generation": 8,
+          "num_archetypes": 31,
+          "train_acc": 0.9707724452018738
+        },
+        {
+          "generation": 9,
+          "num_archetypes": 31,
+          "train_acc": 0.9714683294296265
+        },
+        {
+          "generation": 10,
+          "num_archetypes": 31,
+          "train_acc": 0.9714683294296265
+        },
+        {
+          "generation": 11,
+          "num_archetypes": 31,
+          "train_acc": 0.9728600978851318
+        },
+        {
+          "generation": 12,
+          "num_archetypes": 31,
+          "train_acc": 0.9721642136573792
+        },
+        {
+          "generation": 13,
+          "num_archetypes": 31,
+          "train_acc": 0.9714683294296265
+        },
+        {
+          "generation": 14,
+          "num_archetypes": 32,
+          "train_acc": 0.9735560417175293
+        },
+        {
+          "generation": 15,
+          "num_archetypes": 32,
+          "train_acc": 0.9728600978851318
+        },
+        {
+          "generation": 16,
+          "num_archetypes": 32,
+          "train_acc": 0.9728600978851318
+        },
+        {
+          "generation": 17,
+          "num_archetypes": 32,
+          "train_acc": 0.9721642136573792
+        },
+        {
+          "generation": 18,
+          "num_archetypes": 33,
+          "train_acc": 0.9714683294296265
+        },
+        {
+          "generation": 19,
+          "num_archetypes": 33,
+          "train_acc": 0.9735560417175293
+        },
+        {
+          "generation": 20,
+          "num_archetypes": 33,
+          "train_acc": 0.9735560417175293
+        },
+        {
+          "generation": 21,
+          "num_archetypes": 33,
+          "train_acc": 0.974251925945282
+        },
+        {
+          "generation": 22,
+          "num_archetypes": 33,
+          "train_acc": 0.9756436944007874
+        },
+        {
+          "generation": 23,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 24,
+          "num_archetypes": 33,
+          "train_acc": 0.9756436944007874
+        },
+        {
+          "generation": 25,
+          "num_archetypes": 33,
+          "train_acc": 0.9756436944007874
+        },
+        {
+          "generation": 26,
+          "num_archetypes": 33,
+          "train_acc": 0.9756436944007874
+        },
+        {
+          "generation": 27,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 28,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 29,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 30,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 31,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 32,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 33,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 34,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 35,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 36,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 37,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 38,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        },
+        {
+          "generation": 39,
+          "num_archetypes": 33,
+          "train_acc": 0.97633957862854
+        }
+      ]
+    },
+    {
+      "min_cluster_size": 10,
+      "test_acc": 0.925,
+      "num_archetypes": 14,
+      "fit_time_sec": 0.1159,
+      "trajectory": [
+        {
+          "generation": 0,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 1,
+          "num_archetypes": 12,
+          "train_acc": 0.9220598340034485
+        },
+        {
+          "generation": 2,
+          "num_archetypes": 13,
+          "train_acc": 0.9241475462913513
+        },
+        {
+          "generation": 3,
+          "num_archetypes": 13,
+          "train_acc": 0.9234516620635986
+        },
+        {
+          "generation": 4,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 5,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 6,
+          "num_archetypes": 14,
+          "train_acc": 0.9297146797180176
+        },
+        {
+          "generation": 7,
+          "num_archetypes": 14,
+          "train_acc": 0.9297146797180176
+        },
+        {
+          "generation": 8,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 9,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 10,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 11,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 12,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 13,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 14,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 15,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 16,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 17,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 18,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 19,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 20,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 21,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 22,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 23,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 24,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 25,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 26,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 27,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 28,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 29,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 30,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 31,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 32,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 33,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 34,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 35,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 36,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 37,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 38,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        },
+        {
+          "generation": 39,
+          "num_archetypes": 14,
+          "train_acc": 0.9304105639457703
+        }
+      ]
+    },
+    {
+      "min_cluster_size": 20,
+      "test_acc": 0.875,
+      "num_archetypes": 10,
+      "fit_time_sec": 0.1261,
+      "trajectory": [
+        {
+          "generation": 0,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 1,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 2,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 3,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 4,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 5,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 6,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 7,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 8,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 9,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 10,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 11,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 12,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 13,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 14,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 15,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 16,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 17,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 18,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 19,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 20,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 21,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 22,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 23,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 24,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 25,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 26,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 27,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 28,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 29,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 30,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 31,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 32,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 33,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 34,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 35,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 36,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 37,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 38,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        },
+        {
+          "generation": 39,
+          "num_archetypes": 10,
+          "train_acc": 0.910925567150116
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "dataset": "tabular",
+  "commit_hash": "e918b6f1ba73cb8d1ef45631a49bb54bd3f17d0e",
+  "hardware_info": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.2",
+    "processor": "AMD64 Family 25 Model 117 Stepping 2, AuthenticAMD",
+    "machine": "AMD64",
+    "ram_total_gb": 61.83,
+    "cpu_count_logical": 16,
+    "cpu_count_physical": 8,
+    "torch_version": "2.10.0+cpu",
+    "cuda_available": false
+  },
+  "noise_levels": [
+    0.0,
+    0.05,
+    0.1,
+    0.15,
+    0.2
+  ],
+  "results": {
+    "0.0": {
+      "test_acc_mean": 0.9777999999999999,
+      "test_acc_std": 1.1102230246251565e-16,
+      "detected_rate_mean": 0.0,
+      "detected_rate_std": 0.0,
+      "f1_mean": 0.0,
+      "archetypes_mean": 108.0
+    },
+    "0.05": {
+      "test_acc_mean": 0.9157333333333333,
+      "test_acc_std": 0.01051232081364,
+      "detected_rate_mean": 0.0037333333333333333,
+      "detected_rate_std": 0.0018372685039360894,
+      "f1_mean": 0.11136666666666667,
+      "archetypes_mean": 256.3333333333333
+    },
+    "0.1": {
+      "test_acc_mean": 0.85,
+      "test_acc_std": 0.010396473761168588,
+      "detected_rate_mean": 0.017166666666666667,
+      "detected_rate_std": 0.0014383632673594284,
+      "f1_mean": 0.27786666666666665,
+      "archetypes_mean": 320.0
+    },
+    "0.15": {
+      "test_acc_mean": 0.7935,
+      "test_acc_std": 0.0073025109836731454,
+      "detected_rate_mean": 0.035500000000000004,
+      "detected_rate_std": 0.004463929509598763,
+      "f1_mean": 0.3700333333333334,
+      "archetypes_mean": 347.0
+    },
+    "0.2": {
+      "test_acc_mean": 0.7759666666666667,
+      "test_acc_std": 0.006552522838995299,
+      "detected_rate_mean": 0.07326666666666666,
+      "detected_rate_std": 0.007190889297499226,
+      "f1_mean": 0.5119666666666667,
+      "archetypes_mean": 358.6666666666667
+    }
+  }
+}

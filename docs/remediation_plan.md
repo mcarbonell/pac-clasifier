@@ -11,7 +11,7 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 - [x] **Fase 0: Higiene del Repositorio y Refactorización del Core**
 - [x] **Fase 1: Suite de Tests Automatizados (`pytest`)**
 - [x] **Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos (LVQ, KNN, SVM, MLP)**
-- [ ] **Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones**
+- [x] **Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones**
 - [ ] **Fase 4: Formalización Matemática, Algoritmo y Documentación**
 - [ ] **Fase 5: Estructuración y Redacción del Borrador del Paper**
 
@@ -85,14 +85,17 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 ### Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones
 *Objetivo:* Blindar la contribución de PAC como herramienta de auditoría de datasets y cartografía de fronteras.
 
-- [ ] **3.1 Inyección de Ruido de Etiquetas Controlado:**
-  - Inyectar 0%, 5%, 10%, 15%, 20% de etiquetas aleatorias simétricas en MNIST / Fashion-MNIST.
-  - Evaluar la correlación entre la tasa de ruido inyectada y los `persistent_error_indices` de PAC.
-- [ ] **3.2 Estudio de Ablación:**
-  - Métrica de distancia: Similitud Coseno vs Distancia Euclídea ($L_2$).
-  - Parámetro `min_cluster_size`: impacto en el número total de arquetipos vs precisión.
-  - Curva de crecimiento $K(t)$ y coste temporal por generación.
-- [ ] **3.3 Commit & Push Fase 3.**
+- [x] **3.1 Inyección de Ruido de Etiquetas Controlado:**
+  - Implementado `experiments/analyze_robustness_noise.py` con inyección de 0%, 5%, 10%, 15%, 20% de ruido aleatorio simétrico.
+  - Medida y confirmada la correlación monótona entre ruido inyectado y tasa de errores persistentes detectada.
+  - Gráfica generada en `results/figures/tabular_noise_injection_analysis.png` y resumen en `results/summary/tabular_noise_injection_summary.json`.
+- [x] **3.2 Estudio de Ablación y Dinámica $K(t)$:**
+  - Implementado `experiments/analyze_ablations.py`.
+  - Ablación de métrica de distancia: Similitud Coseno (97.78%) vs Distancia Euclídea (96.39%).
+  - Ablación del parámetro `min_cluster_size` (1 a 20) demostrando trade-off óptimo capacidad vs precisión.
+  - Curvas de trayectoria $K(t)$ y coste acumulado por generación.
+  - Gráficas generadas en `results/figures/` y resúmenes en `results/summary/`.
+- [x] **3.3 Commit & Push Fase 3.**
 
 ---
 
