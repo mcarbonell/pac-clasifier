@@ -9,7 +9,7 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 ## 📋 Checklist General por Fases
 
 - [x] **Fase 0: Higiene del Repositorio y Refactorización del Core**
-- [ ] **Fase 1: Suite de Tests Automatizados (`pytest`)**
+- [x] **Fase 1: Suite de Tests Automatizados (`pytest`)**
 - [ ] **Fase 2: Benchmarks Multi-Dataset y Baselines Competitivos (LVQ, KNN, SVM, MLP)**
 - [ ] **Fase 3: Experimentos de Robustez, Ruido Controlado y Ablaciones**
 - [ ] **Fase 4: Formalización Matemática, Algoritmo y Documentación**
@@ -46,9 +46,9 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
 ### Fase 1: Suite de Tests Automatizados
 *Objetivo:* Garantizar la robustez del algoritmo con integración continua local mediante `pytest`.
 
-- [ ] **1.1 Infraestructura de Tests:**
+- [x] **1.1 Infraestructura de Tests:**
   - Crear directorio `tests/` y `conftest.py`.
-- [ ] **1.2 Batería de Pruebas Unitarias:**
+- [x] **1.2 Batería de Pruebas Unitarias:**
   - `test_fit_predict_synthetic`: Datos 2D sintéticos linealmente separables convergen a 100% de precisión.
   - `test_arbitrary_dimensions`: Funciona correctamente con dimensiones $D=1, 5, 50, 100$.
   - `test_archetype_monotonicity`: El número de arquetipos activos $K$ no decrece por generación.
@@ -56,9 +56,9 @@ Cada fase concluye con verificación, **commit** y **push** al repositorio remot
   - `test_persistent_errors`: Detección de `never_correct_mask` consistente.
   - `test_retrocompatibility`: Verificación de que `PurifyingArchetypeClassifierV2` desde `pac_v2` replica idéntico comportamiento.
   - `test_device_cpu`: Verificación de funcionamiento estricto en CPU sin dependencias GPU.
-- [ ] **1.3 Ejecución y Aprobación:**
-  - Correr `pytest` y confirmar que todos los tests pasan al 100%.
-- [ ] **1.4 Commit & Push Fase 1.**
+- [x] **1.3 Ejecución y Aprobación:**
+  - Correr `pytest` y confirmar que todos los tests pasan al 100% (16 tests, 95% cobertura).
+- [x] **1.4 Commit & Push Fase 1.**
 
 ---
 
