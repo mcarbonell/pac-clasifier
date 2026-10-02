@@ -1,8 +1,9 @@
 # Purifying Archetype Classification: Interpretable Error-Driven Prototype Spawning and Dataset Cartography
 
 **Author:** Mario Raúl Carbonell Martínez  
-**Affiliation:** Independent Research  
-**Correspondence:** `mrcm_` (GitHub: `mcarbonell`)  
+**Affiliation:** Independent Researcher  
+**Email:** `marioraulcarbonell@gmail.com`  
+**Code & Benchmarks:** [https://github.com/mcarbonell/pac-classifier](https://github.com/mcarbonell/pac-classifier)  
 **Target Venues:** NeurIPS / ICML / AISTATS / ECML-PKDD  
 
 ---

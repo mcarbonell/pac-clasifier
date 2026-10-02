@@ -2,15 +2,19 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb,amsthm}
-\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
 \usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
 \usepackage{microtype}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
 \usepackage{xcolor}
 \usepackage{caption}
-\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \hypersetup{
     colorlinks=true,
@@ -22,37 +26,42 @@
 \newtheorem{theorem}{Theorem}
 \newtheorem{proposition}{Proposition}
 \newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
 
 \title{\textbf{Purifying Archetype Classification: Interpretable Error-Driven Prototype Spawning and Dataset Cartography}}
 
 \author{
-    \textbf{Mario Raúl Carbonell Martínez} \\
-    Independent Research \\
-    \texttt{mrcm\_} \quad (\url{https://github.com/mcarbonell/pac-clasifier})
+  \textbf{Mario Raúl Carbonell Martínez}\thanks{Corresponding author: \texttt{marioraulcarbonell@gmail.com}.\\Code and benchmarks: \url{https://github.com/mcarbonell/pac-classifier}.} \\
+  Independent Researcher \\
+  \texttt{marioraulcarbonell@gmail.com}
 }
 
-\date{\today}
+\date{October 2026}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-We introduce the \textbf{Purifying Archetype Classifier (PAC)}, a non-differentiable, prototype-based machine learning framework that dynamically synthesizes class centroids (``archetypes'') driven exclusively by classification errors. In contrast to gradient-based prototype methods such as Learning Vector Quantization (LVQ)---which adjust fixed prototype locations via push/pull gradients---and unsupervised clustering algorithms such as $K$-Means, PAC allocates representational capacity strictly where topological decision boundaries exhibit confusion. PAC operates via a dual-phase iterative process: (1) \textit{Intra-class purification}, which reassigns correctly classified samples to their nearest homogeneous archetype, and (2) \textit{Directed confusion bifurcation}, which excises misclassified samples and instantiates dedicated sub-archetypes encoding specific confusion pairs $(c_{\text{true}} \to c_{\text{pred}})$. We prove that correctly classified instances never migrate across class boundaries (\textit{zero inter-class drift}). Across multiple benchmarks (Tabular Digits, Fashion-MNIST, and MNIST), PAC consistently outperforms the canonical Generalized LVQ (GLVQ) baseline by $+4.7\%$ to $+9.2\%$, while achieving performance competitive with $K$-Nearest Neighbors ($K$-NN) under a $13\times$ to $60.6\times$ exemplar compression ratio. Furthermore, we demonstrate that instances which perpetually resist classification form a compact set of \textit{Persistent Errors} that accurately isolates corrupted ground-truth labels. In an item-by-item audit cross-validated against Confident Learning (\texttt{cleanlab}) on raw MNIST, PAC surfaces 261 persistent errors ($0.43\%$), directly confirming canonical mislabels in common benchmarks. PAC provides an interpretable, mathematically transparent, and compute-frugal paradigm for prototype learning and dataset cartography.
+We introduce the \textbf{Purifying Archetype Classifier (PAC)}, a non-differentiable, prototype-based machine learning framework that dynamically synthesizes class centroids (``archetypes'') driven exclusively by classification errors. In contrast to gradient-based prototype methods such as Learning Vector Quantization (LVQ)---which adjust fixed prototype locations via push/pull gradients---and unsupervised clustering algorithms such as $K$-Means, PAC allocates representational capacity strictly where topological decision boundaries exhibit confusion. PAC operates via a dual-phase iterative process: (1) \textit{Intra-class purification}, which reassigns correctly classified samples to their nearest homogeneous archetype, and (2) \textit{Directed confusion bifurcation}, which excises misclassified samples and instantiates dedicated sub-archetypes encoding specific confusion pairs $(c_{\text{true}} \to c_{\text{pred}})$. We prove that correctly classified instances never migrate across class boundaries (\textit{zero inter-class drift}). Across multiple benchmarks (Tabular Digits, Fashion-MNIST, and MNIST), PAC consistently outperforms the canonical Generalized LVQ (GLVQ) baseline by $+4.7\%$ to $+9.2\%$, while achieving performance competitive with $K$-Nearest Neighbors ($K$-NN) under a $13\times$ to $60.6\times$ exemplar compression ratio. Furthermore, we demonstrate that instances which perpetually resist classification form a compact set of \textit{Persistent Errors} that accurately isolates corrupted ground-truth labels. In an item-by-item audit cross-validated against Confident Learning (\texttt{cleanlab}) on raw MNIST, PAC surfaces 261 persistent errors ($0.43\%$), directly confirming canonical mislabels with a 94.1\% agreement rate on suggested label corrections. PAC provides an interpretable, mathematically transparent, and compute-frugal paradigm for prototype learning and dataset cartography.
 \end{abstract}
 
+\vspace{0.5em}
 \noindent\textbf{Keywords:} Prototype Learning, Interpretable Machine Learning, Dataset Cartography, Label Error Auditing, Non-Differentiable Algorithms, Learning Vector Quantization.
 
----
+\newpage
 
+% -----------------------------------------------------------------------------
 \section{Introduction}
+\label{sec:intro}
+% -----------------------------------------------------------------------------
 
-Modern supervised machine learning is overwhelmingly dominated by deep neural architectures trained via gradient descent. While achieving exceptional accuracy across vision and language benchmarks, these models operate as parameterized black boxes whose internal decision boundaries are non-transparent, vulnerable to label noise, and computationally demanding \cite{chen2019looks, northcutt2021confident}. Conversely, exemplar- and prototype-based classifiers offer intrinsic interpretability: classifications are directly grounded in transparent similarity comparisons to representative centroids in the feature space \cite{kohonen1990self, snell2017prototypical}.
+Modern supervised machine learning is overwhelmingly dominated by deep neural architectures trained via gradient descent. While achieving exceptional accuracy across vision and language benchmarks, these models operate as parameterized black boxes whose internal decision boundaries are non-transparent, vulnerable to label noise, and computationally demanding~\citep{chen2019looks, northcutt2021confident}. Conversely, exemplar- and prototype-based classifiers offer intrinsic interpretability: classifications are directly grounded in transparent similarity comparisons to representative centroids in the feature space~\citep{kohonen1990self, snell2017prototypical}.
 
 However, conventional prototype architectures suffer from critical structural drawbacks:
 \begin{enumerate}
     \item \textbf{Unsupervised spatial distortion:} Algorithms such as $K$-Means partition space according to global geometric variance rather than class separability, often dedicating centroids to non-discriminative background clusters while under-representing complex decision boundaries.
-    \item \textbf{Gradient compromise in LVQ:} Learning Vector Quantization (LVQ) \cite{kohonen1990self} and Generalized LVQ (GLVQ) \cite{sato1996generalized} pre-define a fixed number of prototypes and update their positions via gradient descent. When class boundaries are non-convex or heavily interleaved, gradient forces oppose one another, yielding suboptimal compromise centroids rather than pure representations.
+    \item \textbf{Gradient compromise in LVQ:} Learning Vector Quantization (LVQ)~\citep{kohonen1990self} and Generalized LVQ (GLVQ)~\citep{sato1996generalized} pre-define a fixed number of prototypes and update their positions via gradient descent. When class boundaries are non-convex or heavily interleaved, gradient forces oppose one another, yielding suboptimal compromise centroids rather than pure representations.
     \item \textbf{Inference overhead of $K$-NN:} While $K$-Nearest Neighbors ($K$-NN) avoids prototype optimization by storing the full dataset, its computational complexity $\mathcal{O}(M \cdot N \cdot D)$ and memory footprint scale linearly with dataset size $N$, rendering deployment prohibitive on edge devices.
 \end{enumerate}
 
@@ -71,30 +80,32 @@ Rather than shifting prototypes via gradient descent, PAC instantiates new arche
 \begin{itemize}
     \item \textbf{Error-Driven Prototype Spawning \& Purification:} We formalize a non-differentiable algorithm that dynamically grows prototype count from $K^{(0)} = C$ to an organically bounded $K_{\text{final}}$, proving that correctly classified samples never suffer from inter-class drift (Proposition~\ref{prop:no_drift}).
     \item \textbf{Superiority Over Classical Prototype Baselines:} Across Tabular Digits (64D), Fashion-MNIST (784D), and MNIST (784D), PAC demonstrates substantial accuracy improvements ($+4.7\%$ to $+9.2\%$) over Generalized LVQ (GLVQ), while achieving near-parity with $K$-NN with up to a \textbf{$60.6\times$ reduction in stored exemplars}.
-    \item \textbf{Emergent Dataset Cartography \& Label Error Discovery:} We establish that samples which never achieve correct classification across any generation (\textit{Persistent Errors}) serve as an unsupervised detector for corrupted ground-truth labels. In controlled experiments with 0\% to 20\% label noise, PAC reliably identifies corrupted instances. Furthermore, an item-by-item audit on raw MNIST converges directly with the independent error rate identified by Confident Learning (\texttt{cleanlab}) \cite{northcutt2021confident}.
+    \item \textbf{Emergent Dataset Cartography \& Label Error Discovery:} We establish that samples which never achieve correct classification across any generation (\textit{Persistent Errors}) serve as an unsupervised detector for corrupted ground-truth labels. In controlled experiments with 0\% to 20\% label noise, PAC reliably identifies corrupted instances. Furthermore, an item-by-item audit on raw MNIST converges directly with the independent error rate identified by Confident Learning (\texttt{cleanlab})~\citep{northcutt2021confident}, reaching a 94.1\% consensus on corrected labels.
     \item \textbf{Transparent Complexity \& Frugal Compute:} We provide asymptotic analyses showing training complexity $\mathcal{O}(G \cdot N \cdot \bar{K} \cdot D)$ and inference speedup $\frac{N}{K_{\text{final}}}$ over $K$-NN, training on 60,000 image datasets in under 22 seconds on consumer CPU hardware without requiring GPU acceleration.
 \end{itemize}
 
----
-
+% -----------------------------------------------------------------------------
 \section{Related Work}
+\label{sec:related}
+% -----------------------------------------------------------------------------
 
 \subsection{Prototype Learning and Learning Vector Quantization}
-The foundation of supervised prototype learning originates with Kohonen's Learning Vector Quantization (LVQ) \cite{kohonen1990self}. Sato and Yamada \cite{sato1996generalized} formulated Generalized LVQ (GLVQ) by expressing prototype updates as stochastic gradient descent on a cost function derived from relative distance ratios:
+The foundation of supervised prototype learning originates with Kohonen's Learning Vector Quantization (LVQ)~\citep{kohonen1990self}. \citet{sato1996generalized} formulated Generalized LVQ (GLVQ) by expressing prototype updates as stochastic gradient descent on a cost function derived from relative distance ratios:
 \begin{equation}
     \mu(x) = \frac{d(x, w_J) - d(x, w_K)}{d(x, w_J) + d(x, w_K)}
 \end{equation}
-where $w_J$ is the closest correct prototype and $w_K$ is the closest incorrect prototype. Subsequent extensions, including Robust Soft LVQ (RSLVQ) \cite{seo2003soft} and Matrix LVQ \cite{bunte2012limited}, introduced probabilistic formulations and adaptive metric tensors. However, all LVQ variants maintain a fixed set of prototypes and struggle when prototypes must resolve intricate boundary geometries. PAC diverges fundamentally from the LVQ lineage: \textbf{PAC never shifts prototypes via gradient push/pull; it purifies prototypes via sample excision and instantiates new prototypes via error clustering.}
+where $w_J$ is the closest correct prototype and $w_K$ is the closest incorrect prototype. Subsequent extensions, including Robust Soft LVQ (RSLVQ)~\citep{seo2003soft} and Matrix LVQ~\citep{bunte2012limited}, introduced probabilistic formulations and adaptive metric tensors. However, all LVQ variants maintain a fixed set of prototypes and struggle when prototypes must resolve intricate boundary geometries. PAC diverges fundamentally from the LVQ lineage: \textbf{PAC never shifts prototypes via gradient push/pull; it purifies prototypes via sample excision and instantiates new prototypes via error clustering.}
 
 \subsection{Interpretable Prototype Models}
-In deep learning, Prototypical Networks \cite{snell2017prototypical} compute class centroids in a learned embedding space for few-shot learning. Chen et al. \cite{chen2019looks} introduced ProtoPNet (\textit{``This Looks Like That''}), which incorporates prototype layers into deep convolutional networks to ground predictions in training patches. While powerful, these models require millions of parameters and extensive backpropagation. PAC operates directly on feature representations (raw or latent) without gradient descent, providing extreme computational frugality and explicit lineage tracking.
+In deep learning, Prototypical Networks~\citep{snell2017prototypical} compute class centroids in a learned embedding space for few-shot learning. \citet{chen2019looks} introduced ProtoPNet (\textit{``This Looks Like That''}), which incorporates prototype layers into deep convolutional networks to ground predictions in training patches. While powerful, these models require millions of parameters and extensive backpropagation. PAC operates directly on feature representations (raw or latent) without gradient descent, providing extreme computational frugality and explicit lineage tracking.
 
 \subsection{Dataset Cartography and Label Error Auditing}
-Swayamdipta et al. \cite{swayamdipta2020dataset} introduced \textit{Dataset Cartography}, categorizing training samples into ``easy-to-learn'', ``ambiguous'', and ``hard-to-learn'' based on training dynamics. Northcutt et al. \cite{northcutt2021confident} formulated \textit{Confident Learning}, establishing that standard machine learning benchmarks contain pervasive label errors ($\sim 0.15\%$ to $0.44\%$). While Confident Learning requires cross-validation out-of-sample predicted probabilities from neural networks, PAC surfaces label errors organically through its \textit{Persistent Error} set $\mathcal{P}$ in a single training trajectory.
+\citet{swayamdipta2020dataset} introduced \textit{Dataset Cartography}, categorizing training samples into ``easy-to-learn'', ``ambiguous'', and ``hard-to-learn'' based on training dynamics. \citet{northcutt2021confident} formulated \textit{Confident Learning}, establishing that standard machine learning benchmarks contain pervasive label errors ($\sim 0.15\%$ to $0.44\%$). While Confident Learning requires cross-validation out-of-sample predicted probabilities from neural networks, PAC surfaces label errors organically through its \textit{Persistent Error} set $\mathcal{P}$ in a single training trajectory.
 
----
-
+% -----------------------------------------------------------------------------
 \section{The Purifying Archetype Classifier (PAC)}
+\label{sec:method}
+% -----------------------------------------------------------------------------
 
 \subsection{Mathematical Definitions}
 
@@ -106,7 +117,7 @@ An archetype is an annotated centroid tuple $a_k = (\mu_k, l_k) \in \mathbb{R}^D
 
 At generation $t \in \{0, 1, \dots, G-1\}$, the active archetype dictionary is denoted by $\mathcal{A}^{(t)} = \{(\mu_k^{(t)}, l_k^{(t)})\}_{k=1}^{K^{(t)}}$. The sample-to-cluster assignment is tracked by indices $\gamma_i^{(t)} \in \{1, \dots, K^{(t)}\}$.
 
-\textbf{Affinity Metric:} The primary similarity function is the Cosine Affinity:
+\paragraph{Affinity Metric.} The primary similarity function is the Cosine Affinity:
 \begin{equation}
     S(x, \mu_k) = \frac{\langle x, \mu_k \rangle}{\|x\|_2 \|\mu_k\|_2}
 \end{equation}
@@ -149,23 +160,19 @@ For every $i \in \Omega^{(t)}$, the label of the newly assigned archetype strict
 \end{equation}
 \end{proposition}
 \begin{proof}
-By definition of $\Omega^{(t)}$, $\hat{y}_i^{(t)} = y_i$. Since prediction is defined by the nearest archetype $\hat{y}_i^{(t)} = l_{k_i^*}^{(t)}$, it follows that $l_{k_i^*}^{(t)} = y_i$. Because $\gamma_i^{(t+1)} = k_i^*$, $l_{\gamma_i^{(t+1)}} = y_i$. $\blacksquare$
+By definition of the correctly classified set, $i \in \Omega^{(t)} \iff \hat{y}_i^{(t)} = y_i$. The predicted label is determined by the nearest archetype: $\hat{y}_i^{(t)} = l_{k_i^*}^{(t)}$. Since $\gamma_i^{(t+1)} = k_i^*$, it follows directly that $l_{\gamma_i^{(t+1)}} = l_{k_i^*}^{(t)} = y_i$. Thus, reassignment is guaranteed to remain intra-class, precluding any inter-class label corruption.
 \end{proof}
 
-\textit{Significance:} Proposition~\ref{prop:no_drift} proves that correct samples are strictly quarantined from migrating into clusters of rival classes. However, \textit{intra-class migration} between sub-archetypes of the same class is allowed, enabling clean samples to gravitate towards their true localized topological sub-manifold.
-
-\subsubsection{Phase 4: Directed Confusion Bifurcation (Spawning)}
-For misclassified samples $\mathcal{E}^{(t)}$, PAC groups errors by directed confusion pairs:
+\subsubsection{Phase 4: Directed Confusion Bifurcation}
+For misclassified instances $i \in \mathcal{E}^{(t)}$, errors are partitioned by ordered confusion pairs $(c_{\text{true}}, c_{\text{pred}})$:
 \begin{equation}
     \mathcal{E}_{c_{\text{true}} \to c_{\text{pred}}}^{(t)} = \{i \in \mathcal{E}^{(t)} \mid y_i = c_{\text{true}} \wedge \hat{y}_i^{(t)} = c_{\text{pred}}\}
 \end{equation}
-
-If $|\mathcal{E}_{c_{\text{true}} \to c_{\text{pred}}}^{(t)}| \ge \theta_{\text{min}}$ (where $\theta_{\text{min}} \ge 1$ is the minimum cluster size threshold):
+For each confusion pair satisfying $|\mathcal{E}_{c_{\text{true}} \to c_{\text{pred}}}^{(t)}| \ge \theta_{\text{min}}$ (where $\theta_{\text{min}} \ge 1$ is the minimum cluster size threshold):
 \begin{enumerate}
-    \item A new archetype ID $k_{\text{new}} = K^{(t)} + 1$ is instantiated.
-    \item The error subset is excised from the parent partition: $\gamma_i^{(t+1)} = k_{\text{new}}$ for all $i \in \mathcal{E}_{c_{\text{true}} \to c_{\text{pred}}}^{(t)}$.
-    \item The new archetype inherits the true label: $l_{k_{\text{new}}} = c_{\text{true}}$.
-    \item Lineage metadata is recorded:
+    \item A new archetype $k_{\text{new}}$ is instantiated with label $l_{k_{\text{new}}} = c_{\text{true}}$.
+    \item All samples in $\mathcal{E}_{c_{\text{true}} \to c_{\text{pred}}}^{(t)}$ are reassigned: $\gamma_i^{(t+1)} = k_{\text{new}}$.
+    \item The archetype lineage is recorded in pedigree table $\mathcal{H}$:
     \begin{equation}
         \mathcal{H}[k_{\text{new}}] = \left(t+1, c_{\text{true}}, c_{\text{pred}}, |\mathcal{E}_{c_{\text{true}} \to c_{\text{pred}}}^{(t)}|\right)
     \end{equation}
@@ -204,29 +211,30 @@ In generation $t+1$, the parent archetype is purified (its centroid no longer in
 
 \subsection{Computational Complexity Analysis}
 
-\textbf{Training Complexity:} At generation $t$, calculating active cluster means requires $\mathcal{O}(N \cdot D)$ time. Matrix multiplication of $N$ normalized feature vectors against $K^{(t)}$ archetypes requires $\mathcal{O}(N \cdot K^{(t)} \cdot D)$ floating-point operations. Across $G$ completed generations:
+\paragraph{Training Complexity.} At generation $t$, calculating active cluster means requires $\mathcal{O}(N \cdot D)$ time. Matrix multiplication of $N$ normalized feature vectors against $K^{(t)}$ archetypes requires $\mathcal{O}(N \cdot K^{(t)} \cdot D)$ floating-point operations. Across $G$ completed generations:
 \begin{equation}
     \mathcal{T}_{\text{train}} = \mathcal{O}\left(G \cdot N \cdot \bar{K} \cdot D\right)
 \end{equation}
 where $\bar{K} = \frac{1}{G} \sum_{t=0}^{G-1} K^{(t)}$ is the average archetype count. Because $K^{(0)} = C$ and grows asymptotically towards $K_{\text{final}}$, $\bar{K} \ll K_{\text{final}}$.
 
-\textbf{Inference Complexity:} Classifying $M$ test queries against the final archetype dictionary requires $\mathcal{T}_{\text{inference}} = \mathcal{O}\left(M \cdot K_{\text{final}} \cdot D\right)$. In contrast, standard $K$-NN requires $\mathcal{O}(M \cdot N \cdot D)$. PAC therefore achieves a theoretical and operational speedup factor of:
+\paragraph{Inference Complexity.} Classifying $M$ test queries against the final archetype dictionary requires $\mathcal{T}_{\text{inference}} = \mathcal{O}\left(M \cdot K_{\text{final}} \cdot D\right)$. In contrast, standard $K$-NN requires $\mathcal{O}(M \cdot N \cdot D)$. PAC therefore achieves a theoretical and operational speedup factor of:
 \begin{equation}
     \text{Speedup} = \frac{N}{K_{\text{final}}}
 \end{equation}
 On MNIST ($N=60,000, K_{\text{final}}=1,417$), this yields a \textbf{$42.3\times$ speedup}; on Fashion-MNIST ($K_{\text{final}}=990$), a \textbf{$60.6\times$ speedup}. Memory footprint for deployment is reduced from $\mathcal{O}(N \cdot D)$ to $\mathcal{O}(K_{\text{final}} \cdot D)$, compressing storage requirements by up to $98.3\%$.
 
----
-
+% -----------------------------------------------------------------------------
 \section{Empirical Evaluation}
+\label{sec:eval}
+% -----------------------------------------------------------------------------
 
 \subsection{Experimental Setup}
 To ensure reproducibility adhering to rigorous scientific standards:
 \begin{itemize}
-    \item \textbf{Datasets:} Evaluated across three distinct domains: (1) \textbf{Tabular Digits} (UCI repository, 1,797 samples, 64 features, 10 classes); (2) \textbf{Fashion-MNIST} (70,000 samples, 784 features, 10 classes); and (3) \textbf{MNIST} (70,000 samples, 784 features, 10 classes).
+    \item \textbf{Datasets:} Evaluated across three distinct domains: (1) \textbf{Tabular Digits} (UCI repository, 1,797 samples, 64 features, 10 classes); (2) \textbf{Fashion-MNIST}~\citep{xiao2017fashion} (70,000 samples, 784 features, 10 classes); and (3) \textbf{MNIST}~\citep{lecun1998gradient} (70,000 samples, 784 features, 10 classes).
     \item \textbf{Baselines:} 
     \begin{itemize}
-        \item \textit{GLVQ \cite{sato1996generalized}:} Canonical gradient-based prototype baseline, implemented in PyTorch with relative distance loss and Adam optimization.
+        \item \textit{GLVQ~\citep{sato1996generalized}:} Canonical gradient-based prototype baseline, implemented in PyTorch with relative distance loss and Adam optimization.
         \item \textit{$K$-NN ($k=3$):} Exact non-parametric exemplar baseline with cosine metric.
         \item \textit{SVM (RBF kernel, $C=10$):} Standard non-linear kernel baseline.
         \item \textit{MLP (1 hidden layer, 128 units):} Reference shallow neural network.
@@ -242,27 +250,27 @@ Table~\ref{tab:benchmarks} summarizes comparative classification performance and
 \centering
 \caption{\textbf{Comparative Classification Performance and Efficiency.} All models trained on identical train/test splits. Wall time measured on CPU.}
 \label{tab:benchmarks}
-\footnotesize
-\setlength{\tabcolsep}{3.5pt}
+\resizebox{\linewidth}{!}{
 \begin{tabular}{@{}lcccccc@{}}
 \toprule
 \textbf{Dataset} & \textbf{Dim} & \textbf{Model} & \textbf{Test Acc (\%)} & \textbf{Wall Time (s)} & \textbf{\# Archetypes ($K$)} & \textbf{Compression} \\
 \midrule
 \textbf{Tabular (Digits)} & 64D & \textbf{PAC} & \textbf{97.78\%} & \textbf{0.05 s} & \textbf{108} & \textbf{13.3$\times$} \\
- & & GLVQ \cite{sato1996generalized} & $93.06 \pm 0.39\%$ & 0.33 s & 20 & --- \\
+ & & GLVQ~\citep{sato1996generalized} & $93.06 \pm 0.39\%$ & 0.33 s & 20 & --- \\
  & & $K$-NN ($k=3$) & 98.61\% & 0.01 s & 1,437 & 1$\times$ \\
  & & SVM (RBF) & 99.44\% & 0.03 s & --- & --- \\
  & & MLP (1-layer) & $94.33 \pm 0.45\%$ & 0.15 s & --- & --- \\
 \midrule
 \textbf{Fashion-MNIST} & 784D & \textbf{PAC} & \textbf{83.69\%} & \textbf{17.04 s} & \textbf{990} & \textbf{60.6$\times$} \\
- & & GLVQ \cite{sato1996generalized} & 75.85\% & 6.22 s & 20 & --- \\
+ & & GLVQ~\citep{sato1996generalized} & 75.85\% & 6.22 s & 20 & --- \\
  & & $K$-NN ($k=3$) & 85.64\% & 6.05 s & 60,000 & 1$\times$ \\
 \midrule
 \textbf{MNIST} & 784D & \textbf{PAC} & \textbf{96.05\%} & \textbf{21.73 s} & \textbf{1,417} & \textbf{42.3$\times$} \\
- & & GLVQ \cite{sato1996generalized} & 86.87\% & 5.80 s & 20 & --- \\
+ & & GLVQ~\citep{sato1996generalized} & 86.87\% & 5.80 s & 20 & --- \\
  & & $K$-NN ($k=3$) & 97.33\% & 5.73 s & 60,000 & 1$\times$ \\
 \bottomrule
 \end{tabular}
+}
 \end{table}
 
 \subsection{Analysis}
@@ -271,14 +279,15 @@ Table~\ref{tab:benchmarks} summarizes comparative classification performance and
     \item \textbf{Exemplar Compression vs $K$-NN:} PAC operates within $1.28\%$ to $1.95\%$ of full $K$-NN accuracy while discarding between $92.5\%$ and $98.3\%$ of training exemplars. Unlike $K$-NN, every archetype in PAC is a synthetic centroid possessing semantic meaning and lineage.
 \end{enumerate}
 
----
-
+% -----------------------------------------------------------------------------
 \section{Dataset Auditing and Label Noise Robustness}
+\label{sec:audit}
+% -----------------------------------------------------------------------------
 
 \subsection{Controlled Label Noise Injection}
 To evaluate PAC's ability to audit corrupted training data, we injected symmetric label noise at rates $\eta \in \{0.0, 0.05, 0.10, 0.15, 0.20\}$ into the Tabular Digits training set across multiple random seeds. For each run, we measured test accuracy on uncorrupted test data and tracked PAC's \textit{Persistent Error Set} $\mathcal{P} = \bigcap_{t=0}^{G-1} \mathcal{E}^{(t)}$.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.88\linewidth]{figures/tabular_noise_injection_analysis.png}
     \caption{\textbf{Controlled Label Noise Robustness.} Left: Monotonic recovery of corrupted training labels through PAC persistent errors. Right: Preservation of clean test accuracy under label corruption.}
@@ -289,7 +298,7 @@ As illustrated in Figure~\ref{fig:noise}, the detected persistent error rate exh
 
 \subsection{One-by-One Audit: PAC vs Cleanlab on MNIST}
 
-To rigorously benchmark PAC against the state-of-the-art in dataset auditing, we executed a direct, sample-by-sample comparison between PAC's persistent errors and Confident Learning (\texttt{cleanlab}) \cite{northcutt2021confident} on the full 60,000 MNIST training set. Cleanlab out-of-fold predicted probabilities were computed via 3-fold cross-validation.
+To rigorously benchmark PAC against the state-of-the-art in dataset auditing, we executed a direct, sample-by-sample comparison between PAC's persistent errors and Confident Learning (\texttt{cleanlab})~\citep{northcutt2021confident} on the full 60,000 MNIST training set. Cleanlab out-of-fold predicted probabilities were computed via 3-fold cross-validation.
 
 \begin{table}[ht]
 \centering
@@ -330,9 +339,10 @@ As shown in Table~\ref{tab:cleanlab} and Figure~\ref{fig:overlap}, both methods 
 
 This cross-validation between two radically different paradigms---one based on cross-validated neural network softmax probabilities, the other on non-differentiable geometric archetype purification---provides empirical proof that PAC functions as an ultra-fast, derivative-free dataset auditor.
 
----
-
+% -----------------------------------------------------------------------------
 \section{Ablation Studies}
+\label{sec:ablations}
+% -----------------------------------------------------------------------------
 
 \subsection{Distance Metric: Cosine vs Euclidean}
 We compared Cosine Affinity against Euclidean distance ($L_2$) on Tabular Digits:
@@ -344,7 +354,7 @@ Cosine normalization prevents high-norm outlier vectors from dominating centroid
 
 \subsection{Threshold Sensitivity and Archetype Growth \texorpdfstring{$K(t)$}{K(t)}}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.75\linewidth]{figures/tabular_kt_growth_curves.png}
     \caption{\textbf{Archetype Growth Trajectory $K(t)$ Across Generations.} Capacity scales smoothly and plateaus at convergence under varying $\theta_{\text{min}}$ thresholds.}
@@ -362,9 +372,10 @@ Evaluating the minimum error threshold $\theta_{\text{min}} \in \{1, 2, 5, 10, 2
 
 As shown in Figure~\ref{fig:kt}, archetype growth $K(t)$ is monotonically non-decreasing and plateaus organically when the training accuracy target is satisfied.
 
----
-
-\section{Discussion and Limitations}
+% -----------------------------------------------------------------------------
+\section{Discussion, Limitations, and Broader Impact}
+\label{sec:discussion}
+% -----------------------------------------------------------------------------
 
 \subsection{Advantages of Non-Differentiability}
 PAC's non-differentiable formulation provides distinct advantages:
@@ -380,43 +391,83 @@ PAC's non-differentiable formulation provides distinct advantages:
     \item \textbf{Severe Noise Scaling:} While incoherent noise is quarantined, severe noise rates ($\ge 20\%$) inflate $K$, requiring higher $\theta_{\text{min}}$ thresholds.
 \end{enumerate}
 
----
+\paragraph{Broader Impact.}
+By drastically reducing compute overhead during prototype training and dataset cleaning, PAC provides a frugal, accessible alternative to GPU-intensive neural pipelines, reducing energy consumption and democratization barriers for edge applications.
 
+% -----------------------------------------------------------------------------
 \section{Conclusion}
+\label{sec:conclusion}
+% -----------------------------------------------------------------------------
 
 The Purifying Archetype Classifier (PAC) establishes a new direction for interpretable machine learning. By replacing gradient-based prototype shifting with error-driven prototype spawning and intra-class purification, PAC outperforms canonical LVQ baselines by up to $+9.2\%$ while delivering competitive $K$-NN accuracy with up to $60.6\times$ fewer exemplars. Concurrently, PAC serves as an efficient dataset cartographer, surfacing mislabeled instances through persistent classification errors with verified convergence alongside Confident Learning. Future work will investigate coupling PAC with self-supervised representations (e.g., DINOv2 and CLIP) to construct interpretable prototype maps of foundation model latent spaces.
 
----
+\section*{Acknowledgments}
+The author thanks the open-source community and developers of Python, PyTorch, Scikit-Learn, and Cleanlab for enabling transparent and reproducible machine learning research.
 
-\begin{thebibliography}{10}
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{references}
 
-\bibitem{kohonen1990self}
-T.~Kohonen, ``The self-organizing map,'' \textit{Proceedings of the IEEE}, vol.~78, no.~9, pp.~1464--1480, 1990.
+\newpage
+\appendix
+% -----------------------------------------------------------------------------
+\section{Comprehensive Experimental Hyperparameters}
+\label{sec:appendix_hyperparams}
+% -----------------------------------------------------------------------------
 
-\bibitem{sato1996generalized}
-A.~Sato and K.~Yamada, ``Generalized learning vector quantization,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~9, pp.~423--429, 1996.
+Table~\ref{tab:app_hyperparams} lists the comprehensive training and architectural hyperparameters used across all experimental benchmarks.
 
-\bibitem{snell2017prototypical}
-J.~Snell, K.~Swersky, and R.~Zemel, ``Prototypical networks for few-shot learning,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~30, 2017.
+\begin{table}[ht]
+    \centering
+    \caption{\textbf{Comprehensive Experimental Hyperparameters and Environmental Specifications.}}
+    \label{tab:app_hyperparams}
+    \resizebox{\linewidth}{!}{
+    \begin{tabular}{@{}lccc@{}}
+        \toprule
+        \textbf{Specification / Parameter} & \textbf{Tabular Digits} & \textbf{Fashion-MNIST} & \textbf{MNIST} \\
+        \midrule
+        Input Dimensionality ($D$) & 64 & 784 & 784 \\
+        Classes ($C$) & 10 & 10 & 10 \\
+        Training Samples ($N$) & 1,437 & 60,000 & 60,000 \\
+        Test Samples ($M$) & 360 & 10,000 & 10,000 \\
+        Target Accuracy ($\text{acc}_{\text{target}}$) & 0.999 & 0.999 & 0.999 \\
+        Maximum Generations ($G$) & 10 & 10 & 10 \\
+        Minimum Cluster Threshold ($\theta_{\text{min}}$) & 1 & 1 & 1 \\
+        Similarity Metric & Cosine & Cosine & Cosine \\
+        Bifurcation Mode & Confusion Pairs & Confusion Pairs & Confusion Pairs \\
+        \midrule
+        Final Archetypes ($K_{\text{final}}$) & 108 & 990 & 1,417 \\
+        Wall Clock Time (Training) & 0.05 s & 17.04 s & 21.73 s \\
+        Exemplar Compression vs Full Dataset & 13.3$\times$ & 60.6$\times$ & 42.3$\times$ \\
+        Hardware Platform & AMD Ryzen 7 8845hs & AMD Ryzen 7 8845hs & AMD Ryzen 7 8845hs \\
+        RAM & 64 GB DDR5 & 64 GB DDR5 & 64 GB DDR5 \\
+        Operating System & Windows 11 & Windows 11 & Windows 11 \\
+        Python Environment & Python 3.14 CPU & Python 3.14 CPU & Python 3.14 CPU \\
+        Random Seeds Evaluated & 5 seeds & 1 seed & 1 seed \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
 
-\bibitem{chen2019looks}
-C.~Chen, O.~Li, D.~Tao, A.~Barnett, C.~Rudin, and J.~K. Su, ``This looks like that: deep learning for interpretable image recognition,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~32, 2019.
+% -----------------------------------------------------------------------------
+\section{Extended Mathematical Formulation: Voronoi Tessellations}
+\label{sec:appendix_voronoi}
+% -----------------------------------------------------------------------------
 
-\bibitem{northcutt2021confident}
-C.~Northcutt, L.~Lu, and I.~Chuang, ``Confident learning: Estimating uncertainty in dataset labels,'' \textit{Journal of Artificial Intelligence Research (JAIR)}, vol.~70, pp.~1373--1411, 2021.
+Under Cosine Affinity, the decision space is partitioned into spherical Voronoi cells.
 
-\bibitem{swayamdipta2020dataset}
-S.~Swayamdipta, R.~Schwartz, N.~Lourie, Y.~Wang, H.~Hajishirzi, N.~A. Smith, and Y.~Choi, ``Dataset cartography: Mapping and diagnosing datasets with training dynamics,'' in \textit{Proceedings of EMNLP}, pp.~9275--9293, 2020.
+\begin{definition}[Cosine Voronoi Cell]
+For an archetype dictionary $\mathcal{A} = \{(\mu_k, l_k)\}_{k=1}^K$ where $\mu_k \in \mathbb{S}^{D-1}$, the Voronoi cell associated with archetype $k$ is:
+\begin{equation}
+    V_k = \left\{ x \in \mathbb{S}^{D-1} \;\middle|\; \langle x, \mu_k \rangle \ge \langle x, \mu_j \rangle, \quad \forall j \neq k \right\}
+\end{equation}
+\end{definition}
 
-\bibitem{fritzke1995growing}
-B.~Fritzke, ``A growing neural gas network learns topologies,'' in \textit{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~7, pp.~525--532, 1995.
+The decision boundary between two archetypes $a_j$ and $a_k$ lies on the hyper-plane normal to their difference vector:
+\begin{equation}
+    \partial V_{j, k} = \left\{ x \in \mathbb{S}^{D-1} \;\middle|\; \langle x, \mu_j - \mu_k \rangle = 0 \right\}
+\end{equation}
 
-\bibitem{seo2003soft}
-S.~Seo and K.~Obermayer, ``Soft learning vector quantization,'' \textit{Neural Computation}, vol.~15, no.~7, pp.~1589--1604, 2003.
-
-\bibitem{bunte2012limited}
-K.~Bunte, P.~Schneider, B.~Hammer, F.-M. Schleif, T.~Villmann, and M.~Biehl, ``Limited rank matrix learning, discriminative dimension reduction and visualization,'' \textit{Neural Networks}, vol.~26, pp.~159--173, 2012.
-
-\end{thebibliography}
+When PAC performs directed confusion bifurcation, it places a new archetype centroid $\mu_{\text{new}}$ inside the Voronoi cell of the competing class $c_{\text{pred}}$, carving out an exclusive sub-region $V_{\text{new}}$ and restoring the correct label $c_{\text{true}}$ without disturbing distant Voronoi cells.
 
 \end{document}
